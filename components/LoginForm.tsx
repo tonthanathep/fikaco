@@ -1,4 +1,5 @@
 "use client";
+import { login } from "@/utils/supabase/auth";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { z } from "zod";
@@ -11,7 +12,7 @@ const loginSchema = z.object({
     .email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" })
+    .min(6, { message: "Password must be at least 8 characters" })
     .max(20, { message: "Password must be at most 20 characters" }),
 });
 
@@ -37,8 +38,8 @@ const LoginForm = () => {
     // TODO: Handle Zod error
     const validFormData = loginSchema.parse(formData);
     console.log(validFormData);
+    await login(formData);
     setLoading(false);
-    // TODO: Handle form submit
   };
 
   return (
