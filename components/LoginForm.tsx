@@ -131,8 +131,8 @@ const LoginForm = () => {
               disabled={loading}
               style={{
                 backgroundColor: "#FFFFFF",
-                color: "#000000",
-                borderColor: "#000000",
+                color: "#5b5b5b",
+                borderColor: "#5b5b5b",
                 borderWidth: "0.08rem",
               }}
               whileHover={{ backgroundColor: "#000000", color: "#FFFFFF" }}
