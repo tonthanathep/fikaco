@@ -64,13 +64,13 @@ const TaskListCard = () => {
   };
 
   return (
-    <motion.div style={{ padding: "1rem" }}>
+    <motion.div style={{ padding: "1rem", paddingTop: "0.6rem" }}>
       <motion.div layout id='clockin' className='flex flex-col'>
         <motion.div
           layout='position'
           className='flex flex-row gap-2 items-center justify-between'
         >
-          <h1 className='text-xl font-bold font-serif'> Today's task </h1>
+          <h1 className='text-lg font-bold font-serif'> Today's task </h1>
           <motion.div
             animate={{
               opacity: taskLength === 0 ? 0 : 1,
@@ -78,7 +78,7 @@ const TaskListCard = () => {
               filter: taskLength === 0 ? "blur(6px)" : "blur(0px)",
               color: taskLength === taskCompleted ? "#DDAD4D" : "#000000",
             }}
-            className='inline-flex items-center gap-1 text-md font-medium font-sans'
+            className='inline-flex items-center gap-1 text-md font-semibold font-serif text-center'
           >
             <AnimatePresence mode='popLayout'>
               <motion.span
