@@ -64,7 +64,14 @@ const TaskListCard = () => {
   };
 
   return (
-    <motion.div style={{ padding: "1rem", paddingTop: "0.6rem" }}>
+    <motion.div
+      style={{
+        padding: "1rem",
+        paddingTop: "0.6rem",
+        paddingBottom: "0rem",
+      }}
+      className='flex flex-col min-h-full min-w-full'
+    >
       <motion.div layout id='clockin' className='flex flex-col'>
         <motion.div
           layout='position'
@@ -227,7 +234,7 @@ const TaskListCard = () => {
               }}
               transition={{ duration: 0.4 }}
               layout
-              className=' flex flex-col items-center justify-center mt-4'
+              className=' flex flex-col items-center justify-center mt-4 min-w-full'
             >
               <PiConfettiDuotone className='text-6xl' />
               <motion.h1 className='text-md font-semibold font-serif'>
