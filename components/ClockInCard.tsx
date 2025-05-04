@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
+import Clock from "./Clock";
 
 const ClockInCard = () => {
   const [isClockIn, setIsClockIn] = useState(false);
@@ -9,10 +10,14 @@ const ClockInCard = () => {
   return (
     <motion.div
       layout
+      initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.4 }}
       style={{
-        backgroundColor: "#fcf3cf",
-        borderRadius: "1rem",
+        backgroundColor: "#fefefd",
+        borderRadius: "1.4rem",
         padding: "1rem",
+        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
       }}
     >
       {!isClockIn ? (
@@ -46,8 +51,7 @@ const ClockInCard = () => {
         </motion.div>
       ) : (
         <motion.div id='clockout' className='flex flex-col'>
-          <h1 className='text-2xl font-bold'> Clock out </h1>
-          <h1 className='text-xl font-medium'> Clock out of your workspace </h1>
+          <Clock />
           <motion.button
             className='block w-full rounded-xl  px-3 py-3 text-center text-sm font-semibold text-white '
             style={{ backgroundColor: "#DDAD4D" }}

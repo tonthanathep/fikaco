@@ -7,7 +7,7 @@ const MyPage = async () => {
   let userInfo = await getUserInfo();
 
   return (
-    <div className='flex min-h-screen flex-col  py-4 px-4 sm:px-6 lg:px-100 gap-5'>
+    <div className='flex min-h-screen flex-col  py-4 px-4 sm:px-6 lg:px-100 gap-5 bg-[#f9f6ee]'>
       <Header />
 
       <ClockInCard />
