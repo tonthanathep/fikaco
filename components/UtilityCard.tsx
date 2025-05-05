@@ -1,13 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
 import { PiSunHorizonDuotone } from "react-icons/pi";
 
-const UtilityCard = () => {
-  const [isClockIn, setIsClockIn] = useState(false);
-  const [isStandup, setIsStandup] = useState(false);
-
+const UtilityCard = ({ standup, setIsStandup }: any) => {
   return (
     <motion.div
       layout
@@ -22,7 +18,7 @@ const UtilityCard = () => {
       className='flex flex-row items-center justify-start gap-6 '
     >
       <AnimatePresence mode='popLayout'>
-        {isStandup ? (
+        {standup.alreadyStandup ? (
           <motion.div
             key={0}
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
@@ -36,6 +32,7 @@ const UtilityCard = () => {
               <motion.h1 className='text-lg font-bold font-serif'>
                 Today's stand-up
               </motion.h1>
+              {standup.today}
             </motion.div>
           </motion.div>
         ) : (
@@ -46,15 +43,16 @@ const UtilityCard = () => {
             exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
             transition={{ duration: 0.4 }}
             className='flex flex-row items-center justify-start gap-6 '
+            onClick={() => setIsStandup(true)}
           >
             <PiSunHorizonDuotone className='text-5xl' />
             <motion.div>
+              <motion.h2 className='text-sm font-light font-sans opacity-40'>
+                Reminder
+              </motion.h2>
               <motion.h1 className='text-lg font-bold font-serif'>
                 Hey, it's time for today's stand-up!
               </motion.h1>
-              <motion.h2 className='text-md font-light font-sans opacity-40'>
-                What's done, what's next?
-              </motion.h2>
             </motion.div>
           </motion.div>
         )}

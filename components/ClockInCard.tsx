@@ -14,7 +14,7 @@ const ClockInCard = () => {
       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       transition={{ duration: 0.4 }}
       style={{
-        backgroundColor: "#fefefd",
+        backgroundColor: "#fcf8f5",
         borderRadius: "1.4rem",
         padding: "1.2rem",
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
@@ -54,8 +54,8 @@ const ClockInCard = () => {
           <motion.div className='flex flex-row gap-2 '>
             <motion.button
               layout
-              className='block  rounded-2xl px-3 py-3 text-center text-black/30 w-full '
-              style={{ backgroundColor: "#DDAD4D" }}
+              className='block  rounded-2xl px-3 py-3 text-center text-white w-full '
+              style={{ backgroundColor: "#739878" }}
               whileHover={{ backgroundColor: "#C59B2C" }}
               whileTap={{ backgroundColor: "#C59B2C", scale: 0.98 }}
               onClick={() => setIsClockIn(true)}

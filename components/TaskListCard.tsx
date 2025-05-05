@@ -65,8 +65,9 @@ const TaskListCard = () => {
 
   return (
     <motion.div
+      layout
       style={{
-        padding: "1rem",
+        padding: "0.6rem",
         paddingTop: "0.6rem",
         paddingBottom: "0rem",
       }}
@@ -222,7 +223,7 @@ const TaskListCard = () => {
                 opacity: 0.7,
                 y: 0,
                 filter: "blur(0px)",
-                borderWidth: "0.05rem",
+                borderWidth: "0.1rem",
                 borderColor: "#dddddd",
                 borderStyle: "dashed",
               }}
