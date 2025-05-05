@@ -27,7 +27,7 @@ const Clock = () => {
   };
 
   return (
-    <motion.div className='flex flex-row relative text-5xl font-bold font-serif items-center'>
+    <motion.div className='flex flex-row relative font-bold font-serif items-center'>
       <AnimatePresence mode='popLayout'>
         <motion.div
           key={minutes + 0.5}
