@@ -1,4 +1,5 @@
 "use client";
+import LevelToast from "@/components/LevelToast";
 import ClockInCard from "@/components/my/ClockInCard";
 import Header from "@/components/my/Header";
 import TaskListCard from "@/components/TaskListCard";
@@ -8,7 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 const MyPage = () => {
-  const [isLocked, setIsLocked] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
   const [standup, setStandup] = useState({
     yesterday: "I helped my mother",
     today: "I will help my mother",
@@ -16,6 +17,7 @@ const MyPage = () => {
     alreadyStandup: false,
   });
   const [isStandup, setIsStandup] = useState(false);
+  const [isToast, setIsToast] = useState(true);
 
   return (
     <motion.div className='flex min-h-screen h-screen flex-col w-full py-4 px-4 sm:px-6 lg:px-10 xl:px-38 2xl:px-80 gap-4 bg-[#fff8f5] relative overflow-hidden'>
@@ -31,13 +33,18 @@ const MyPage = () => {
           <div className='flex flex-col gap-4 w-full lg:w-[36%]'>
             <ClockInCard />
             <UtilityCard standup={standup} setIsStandup={setIsStandup} />
+            <motion.button onClick={() => setIsToast(true)}>
+              On Toast
+            </motion.button>
+            <motion.button onClick={() => setIsToast(false)}>
+              Off Toast
+            </motion.button>
           </div>
           <div className='flex flex-col gap-4 w-full lg:w-[64%]'>
             <TaskListCard />
           </div>
         </motion.div>
       )}
-
       <AnimatePresence>
         {isLocked && (
           <motion.div
@@ -53,6 +60,21 @@ const MyPage = () => {
             className='absolute top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden'
           >
             <WelcomeCard setIsLocked={setIsLocked} />
+          </motion.div>
+        )}
+        {isToast && (
+          <motion.div
+            initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
+            exit={{
+              opacity: 0,
+              filter: "blur(20px)",
+              scale: 1.1,
+              transition: { duration: 1, ease: [0.25, 1, 0.5, 1] },
+            }}
+            className='absolute items-start justify-center top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden pointer-events-none'
+          >
+            <LevelToast />
           </motion.div>
         )}
       </AnimatePresence>

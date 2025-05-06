@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
+import { PiFireSimpleDuotone } from "react-icons/pi";
 import Clock from "../Clock";
 
 const ClockInCard = () => {
@@ -15,27 +16,26 @@ const ClockInCard = () => {
         opacity: 1,
         y: 0,
         filter: "blur(0px)",
-        backgroundColor: isClockIn ? "#739878" : "#fcf8f5",
+        backgroundColor: isClockIn ? "#739878" : "#ffffff",
       }}
       transition={{ duration: 0.4 }}
       style={{
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
       }}
-      className='px-4 py-4 gap-4 relative rounded-2xl'
+      className='px-3 py-3 gap-4 relative rounded-2xl'
     >
       {!isClockIn ? (
         <motion.div id='clockin' className='flex flex-col justify-center'>
-          <motion.div className='flex flex-row gap-3 items-center justify-start mb-[4rem] px-[0.4rem] font-sans'>
-            May {new Date().getDate()}
+          <motion.div className='flex flex-row w-fit  gap-2 items-center justify-start mb-[4rem] pt-2 pl-1 font-sans'>
+            <PiFireSimpleDuotone /> 6 Days Streaks!
           </motion.div>
           <motion.div className='flex flex-col gap-2 '>
             <motion.div className='flex flex-col p-[0.4rem]'>
-              <h1 className='text-lg font-light font-sans'>
-                Good morning, Ton!
+              <h1 className='text-lg font-light font-sans opacity-60'>
+                Tuesday, May 6
               </h1>
               <h1 className='text-3xl font-bold font-serif mt-0.5'>
-                {" "}
-                Ready to clock-in?{" "}
+                Let's get started
               </h1>
             </motion.div>
             <motion.button
@@ -63,8 +63,7 @@ const ClockInCard = () => {
                 Good morning, Ton!
               </h1>
               <h1 className='text-3xl font-bold font-serif mt-0.5'>
-                {" "}
-                Ready to clock-in?{" "}
+                Let's get started
               </h1>
             </motion.div>
             <motion.button
