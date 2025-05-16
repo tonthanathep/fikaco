@@ -16,7 +16,7 @@ const Header = ({ setIsProfile }: any) => {
         <motion.div className='flex flex-row gap-2.5 items-center p-2'>
           <motion.div className='flex flex-col items-end'>
             <motion.span className='text-sm font-bold font-sans'>
-              Ton
+              Fika
             </motion.span>
             <motion.span className='text-xs font-light font-sans'>
               Junior Fika Lv.1

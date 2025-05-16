@@ -60,7 +60,7 @@ const ClockInCard = () => {
           <motion.div className='flex flex-col gap-2 '>
             <motion.div className='flex flex-col p-[0.4rem]'>
               <h1 className='text-lg font-light font-sans'>
-                Good morning, Ton!
+                Good morning, Fika!
               </h1>
               <h1 className='text-3xl font-bold font-serif mt-0.5'>
                 Let's get started

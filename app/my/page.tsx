@@ -1,5 +1,6 @@
 "use client";
 import LevelToast from "@/components/LevelToast";
+import ModalCard from "@/components/ModalCard";
 import ClockInCard from "@/components/my/ClockInCard";
 import Header from "@/components/my/Header";
 import TaskListCard from "@/components/TaskListCard";
@@ -9,7 +10,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 const MyPage = () => {
-  const [isLocked, setIsLocked] = useState(false);
+  const [isLocked, setIsLocked] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const [standup, setStandup] = useState({
     yesterday: "I helped my mother",
     today: "I will help my mother",
@@ -17,34 +19,60 @@ const MyPage = () => {
     alreadyStandup: false,
   });
   const [isStandup, setIsStandup] = useState(false);
-  const [isToast, setIsToast] = useState(true);
+  const [isToast, setIsToast] = useState(false);
+  const [isModal, setIsModal] = useState(false);
+
+  const handleLock = () => {
+    if (isLocked) {
+      setIsLocked(false);
+      setIsActive(true);
+    }
+  };
+
+  const handleModal = () => {
+    if (isModal) {
+      setIsActive(true);
+      setIsModal(false);
+    } else {
+      setIsModal(true);
+      setIsActive(false);
+    }
+  };
+
+  const dashboardVariants = {
+    initial: { opacity: 0, filter: "blur(10px)", scale: 0.5 },
+    active: { opacity: 1, filter: "blur(0px)", scale: 1 },
+    inactive: { opacity: 0.8, filter: "blur(10px)", scale: 0.88 },
+  };
 
   return (
-    <motion.div className='flex min-h-screen h-screen flex-col w-full py-4 px-4 sm:px-6 lg:px-10 xl:px-38 2xl:px-80 gap-4 bg-[#fff8f5] relative overflow-hidden'>
+    <motion.div
+      style={{
+        backgroundImage:
+          "linear-gradient(180deg,rgba(199, 163, 115, 1) 0%, rgba(221, 197, 165, 1) 13%, rgba(237, 223, 204, 1) 27%, rgba(245, 235, 222, 1) 37%, rgba(255, 251, 245, 1) 100%)",
+      }}
+      className='flex min-h-screen h-screen flex-col w-full py-4 px-4 sm:px-6 lg:px-10 xl:px-38 2xl:px-80 gap-4  relative overflow-hidden'
+    >
       <Header setIsProfile={() => {}} />
 
-      {!isLocked && (
-        <motion.div
-          initial={{ opacity: 0, filter: "blur(10px)", scale: 0.75 }}
-          animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-          transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
-          className='flex flex-col lg:flex-row gap-4 lg:gap-11 w-full'
-        >
-          <div className='flex flex-col gap-4 w-full lg:w-[36%]'>
-            <ClockInCard />
-            <UtilityCard standup={standup} setIsStandup={setIsStandup} />
-            <motion.button onClick={() => setIsToast(true)}>
-              On Toast
-            </motion.button>
-            <motion.button onClick={() => setIsToast(false)}>
-              Off Toast
-            </motion.button>
-          </div>
-          <div className='flex flex-col gap-4 w-full lg:w-[64%]'>
-            <TaskListCard />
-          </div>
-        </motion.div>
-      )}
+      <motion.div
+        variants={dashboardVariants}
+        initial='initial'
+        animate={isActive ? "active" : "inactive"}
+        transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
+        className='flex flex-col lg:flex-row gap-4 lg:gap-11 w-full'
+      >
+        <div className='flex flex-col gap-4 w-full lg:w-[36%]'>
+          <ClockInCard />
+          <UtilityCard standup={standup} setIsStandup={setIsStandup} />
+          <motion.button onClick={() => handleModal()}>On Toast</motion.button>
+          <motion.button onClick={() => handleModal()}>Off Toast</motion.button>
+        </div>
+        <div className='flex flex-col gap-4 w-full lg:w-[64%]'>
+          <TaskListCard />
+        </div>
+      </motion.div>
+
       <AnimatePresence>
         {isLocked && (
           <motion.div
@@ -59,7 +87,7 @@ const MyPage = () => {
             transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
             className='absolute top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden'
           >
-            <WelcomeCard setIsLocked={setIsLocked} />
+            <WelcomeCard handleLock={handleLock} />
           </motion.div>
         )}
         {isToast && (
@@ -75,6 +103,28 @@ const MyPage = () => {
             className='absolute items-start justify-center top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden pointer-events-none'
           >
             <LevelToast />
+          </motion.div>
+        )}
+        {isModal && (
+          <motion.div
+            initial={{ opacity: 0, filter: "blur(10px)" }}
+            animate={{
+              opacity: 1,
+              filter: "blur(0px)",
+              scale: 1,
+
+              backgroundColor: "rgba(0, 0, 0, 0.1)",
+            }}
+            exit={{
+              opacity: 0,
+              filter: "blur(20px)",
+              scale: 1.1,
+              transition: { duration: 1, ease: [0.25, 1, 0.5, 1] },
+            }}
+            transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+            className='absolute top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden'
+          >
+            <ModalCard handleModal={handleModal} />
           </motion.div>
         )}
       </AnimatePresence>
