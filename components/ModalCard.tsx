@@ -1,38 +1,38 @@
 "use client";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { JSX, useState } from "react";
 
-const Page1 = () => (
-  <motion.div className='flex flex-col items-center justify-center'>
-    <h2 className='text-lg font-bold'>Page 1</h2>
-    <p>Welcome to Page 1 of the modal!</p>
-  </motion.div>
-);
-
-const Page2 = () => (
-  <motion.div className='flex flex-col items-center justify-center'>
-    <h2 className='text-lg font-bold'>Page 2</h2>
-    <p>This is Page 2, enjoy your stay!</p>
-  </motion.div>
-);
-
-const Page3 = () => (
-  <motion.div className='flex flex-col items-center justify-center'>
-    <h2 className='text-lg font-bold'>Page 3</h2>
-    <p>You've reached Page 3. Almost there!</p>
-  </motion.div>
-);
-
-const ModalCard = ({ handleModal }: { handleModal: () => void }) => {
+const ModalCard = ({
+  handleModal,
+  pages,
+}: {
+  handleModal: () => void;
+  pages: JSX.Element[];
+}) => {
   const [pageIndex, setPageIndex] = useState(0);
-  const pages = [
-    <Page1 key='page1' />,
-    <Page2 key='page2' />,
-    <Page3 key='page3' />,
-  ];
+  const [exitDirection, setExitDirection] = useState<"next" | "prev">("next");
 
   const handleNext = () => {
+    setExitDirection("next");
     setPageIndex((prevIndex) => (prevIndex + 1) % pages.length);
+  };
+
+  const handlePrev = () => {
+    setExitDirection("prev");
+    setPageIndex((prevIndex) => (prevIndex - 1 + pages.length) % pages.length);
+  };
+
+  const variants = {
+    next: {
+      initial: { opacity: 0, x: 50, filter: "blur(10px)" },
+      animate: { opacity: 1, x: 0, filter: "blur(0px)" },
+      exit: { opacity: 0, x: -50, filter: "blur(10px)" },
+    },
+    prev: {
+      initial: { opacity: 0, x: -50, filter: "blur(10px)" },
+      animate: { opacity: 1, x: 0, filter: "blur(0px)" },
+      exit: { opacity: 0, x: 50, filter: "blur(10px)" },
+    },
   };
 
   return (
@@ -42,26 +42,36 @@ const ModalCard = ({ handleModal }: { handleModal: () => void }) => {
         exit={{ y: 20, opacity: 0, filter: "blur(10px)" }}
         animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-        className='flex flex-col w-[40vw] min-h-[50vh] rounded-2xl bg-white p-4 z-10'
+        className='flex flex-col w-full md:max-w-[60vw] lg:max-w-[40vw] min-h-[50vh] rounded-2xl bg-white p-4 z-10 border-[0.5px] border-[#93786d]'
         onClick={(e) => e.stopPropagation()}
       >
         <AnimatePresence mode='popLayout'>
           <motion.div
             key={pageIndex}
-            initial={{ opacity: 0, x: 50, filter: "blur(10px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, x: -50, filter: "blur(10px)" }}
-            transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
+            variants={variants[exitDirection]}
+            initial='initial'
+            animate='animate'
+            exit='exit'
+            transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+            className='flex flex-col w-full h-full'
           >
             {pages[pageIndex]}
           </motion.div>
         </AnimatePresence>
-        <motion.button
-          className='mt-4 p-2 bg-black text-white rounded-xl'
-          onClick={handleNext}
-        >
-          Next
-        </motion.button>
+        <div className='flex flex-row w-full items-center justify-between'>
+          <motion.button
+            className='mt-4 p-2 bg-black text-white rounded-xl'
+            onClick={handlePrev}
+          >
+            Prev
+          </motion.button>
+          <motion.button
+            className='mt-4 p-2 bg-black text-white rounded-xl'
+            onClick={handleNext}
+          >
+            Next
+          </motion.button>
+        </div>
         <motion.h1
           className='text-md font-light font-sans cursor-pointer mt-2'
           onClick={handleModal}

@@ -1,5 +1,7 @@
 "use client";
 
+import { Task, useTaskStore } from "@/utils/store/TaskStore";
+import useStore from "@/utils/useStore";
 import { AnimatePresence, motion, Reorder } from "motion/react";
 import { useEffect, useState } from "react";
 import { FaCheck, FaCheckSquare } from "react-icons/fa";
@@ -7,23 +9,31 @@ import { FaPencil, FaTrash } from "react-icons/fa6";
 import { PiConfettiDuotone } from "react-icons/pi";
 import { v4 as uuid } from "uuid";
 
-type Task = {
-  id: string;
-  task: string;
-  completed: boolean;
-  createdAt: string;
-};
-
 const TaskListCard = () => {
   const [taskList, setTaskList] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState("");
   const [taskLength, setTaskLength] = useState(0);
   const [taskCompleted, setTaskCompleted] = useState(0);
-  const taskLimit = 10;
-
+  const taskLimit = 4;
+  const { updateTaskList } = useTaskStore();
+  const storeTaskList = useStore(useTaskStore, (state) => state.storeTaskList);
+  const hasHydrated = useStore(useTaskStore, (state) => state._hasHydrated);
   useEffect(() => {
     setTaskLength(taskList.length);
     setTaskCompleted(taskList.filter((t) => t.completed).length);
+  }, [taskList]);
+
+  useEffect(() => {
+    console.log("Hydrated:", hasHydrated);
+    if (hasHydrated) {
+      setTaskList(storeTaskList as Task[]);
+    }
+  }, [hasHydrated]);
+
+  useEffect(() => {
+    if (hasHydrated) {
+      updateTaskList(taskList);
+    }
   }, [taskList]);
 
   const addTask = (task: string) => {
@@ -34,8 +44,12 @@ const TaskListCard = () => {
         {
           id: uuid(),
           task,
+          effort: 0,
           completed: false,
           createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          startedAt: "",
+          completedAt: "",
         },
       ];
       return sortTasks(newTaskList);
@@ -126,6 +140,7 @@ const TaskListCard = () => {
                     paddingRight: "1.5rem",
                     touchAction: "none",
                     backdropFilter: "blur(10px)",
+                    backgroundColor: "#f3eeda",
                   }}
                   initial={{
                     opacity: 0,
@@ -249,13 +264,13 @@ const TaskListCard = () => {
         style={{
           backgroundColor: "#ffffff",
           color: "#5b5b5b",
-
           padding: "1rem",
           paddingLeft: "1.3rem",
         }}
         animate={{
-          opacity: taskList.length >= taskLimit ? 0 : 1,
-          display: taskList.length >= taskLimit ? "none" : "flex",
+          opacity: taskList.length - taskCompleted >= taskLimit ? 0 : 1,
+          display:
+            taskList.length - taskCompleted >= taskLimit ? "none" : "flex",
         }}
         whileHover={{ backgroundColor: "#fefef7" }}
         whileTap={{ backgroundColor: "#fefef7", scale: 0.98 }}

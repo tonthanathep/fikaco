@@ -56,6 +56,15 @@ const UtilityCard = ({ standup, setIsStandup }: any) => {
 
         <motion.div className='flex flex-col gap-2'>
           <motion.h1 className='text-sm font-light font-serif'>
+            What are you working on today?
+          </motion.h1>
+          <motion.h1 className='text-md font-normal font-sans'>
+            {standup.today}
+          </motion.h1>
+        </motion.div>
+
+        <motion.div className='flex flex-col gap-2'>
+          <motion.h1 className='text-sm font-light font-serif'>
             What is barrier you have facing?
           </motion.h1>
           <motion.h1 className='text-md font-normal font-sans'>
