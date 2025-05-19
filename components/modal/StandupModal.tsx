@@ -1,10 +1,34 @@
 "use client";
 
+import useStandupStore from "@/utils/store/StandupStore";
+import useStore from "@/utils/useStore";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 import { PiSunHorizonDuotone } from "react-icons/pi";
+import { Standup } from "../../utils/store/StandupStore";
 
-const StandUpCard = ({ standup, setStandup, setIsStandup }: any) => {
+const StandupModal = ({ handleModal }: { handleModal: () => void }) => {
+  const { setStoreStandup } = useStandupStore();
+  const storeStandup = useStore(useStandupStore, (state) => state.storeStandup);
+  const hasHydrated = useStore(useStandupStore, (state) => state._hasHydrated);
+  const hasStandup = useStore(useStandupStore, (state) => state.hasStandup);
+
+  const [standup, setStandup] = useState<Standup>({
+    yesterday: "",
+    today: "",
+    barrier: "",
+    id: "",
+  });
+
+  useEffect(() => {
+    //If already stand-up, load info from store
+    if (hasStandup) {
+      setStandup(storeStandup as Standup);
+    }
+  }, [hasHydrated]);
+
   const handleStandup = (field: string, e: any) => {
+    // Handle change when input form
     setStandup((prevState: any) => ({
       ...prevState,
       [field]: e.target.value,
@@ -12,30 +36,18 @@ const StandUpCard = ({ standup, setStandup, setIsStandup }: any) => {
   };
 
   const handleSave = () => {
-    setIsStandup(false);
-    setStandup((prevState: any) => ({
-      ...prevState,
-      alreadyStandup: true,
-    }));
+    // Handle save to store
+    setStoreStandup({
+      yesterday: standup.yesterday,
+      today: standup.today,
+      barrier: standup.barrier,
+      id: standup.id,
+    });
+    handleModal();
   };
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 100, scale: 0.8, filter: "blur(10px)" }}
-      animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-      transition={{ duration: 0.4 }}
-      style={{
-        backgroundColor: "#fcf8f5",
-        borderRadius: "1.4rem",
-        padding: "1.4rem",
-        paddingTop: "2rem",
-        paddingBottom: "2rem",
-        width: "100%",
-        boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.8)",
-      }}
-      className='flex flex-col gap-5'
-    >
+    <motion.div className='flex flex-col gap-5'>
       <motion.div className='flex flex-col items-center justify-start '>
         <PiSunHorizonDuotone className='text-5xl' />
         <motion.h1 className='text-2xl font-bold font-serif'>
@@ -87,4 +99,4 @@ const StandUpCard = ({ standup, setStandup, setIsStandup }: any) => {
   );
 };
 
-export default StandUpCard;
+export default StandupModal;

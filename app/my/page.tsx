@@ -1,9 +1,10 @@
 "use client";
 import LevelToast from "@/components/LevelToast";
+import StandupModal from "@/components/modal/StandupModal";
 import ModalCard from "@/components/ModalCard";
 import ClockInCard from "@/components/my/ClockInCard";
 import Header from "@/components/my/Header";
-import { onboardingPages } from "@/components/onboarding/Onboarding";
+
 import TaskListCard from "@/components/TaskListCard";
 import UtilityCard from "@/components/UtilityCard";
 import WelcomeCard from "@/components/WelcomeCard";
@@ -65,7 +66,7 @@ const MyPage = () => {
       >
         <div className='flex flex-col gap-4 w-full lg:w-[36%]'>
           <ClockInCard />
-          <UtilityCard standup={standup} setIsStandup={setIsStandup} />
+          <UtilityCard />
           <motion.button onClick={() => handleModal()}>On Toast</motion.button>
           <motion.button onClick={() => handleModal()}>Off Toast</motion.button>
         </div>
@@ -113,7 +114,6 @@ const MyPage = () => {
               opacity: 1,
               filter: "blur(0px)",
               scale: 1,
-
               backgroundColor: "rgba(0, 0, 0, 0.1)",
             }}
             exit={{
@@ -125,7 +125,9 @@ const MyPage = () => {
             transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
             className='absolute top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden'
           >
-            <ModalCard handleModal={handleModal} pages={onboardingPages} />
+            <ModalCard handleModal={handleModal}>
+              <StandupModal handleModal={handleModal} />
+            </ModalCard>
           </motion.div>
         )}
       </AnimatePresence>
