@@ -14,30 +14,32 @@ import { useState } from "react";
 const MyPage = () => {
   const [isLocked, setIsLocked] = useState(true);
   const [isActive, setIsActive] = useState(false);
-  const [standup, setStandup] = useState({
-    yesterday: "I helped my mother",
-    today: "I will help my mother",
-    barrier: "My mother is a very good person",
-    alreadyStandup: false,
-  });
-  const [isStandup, setIsStandup] = useState(false);
+
   const [isToast, setIsToast] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [activeModal, setActiveModal] = useState<"standup" | "onboarding" | "">(
+    ""
+  );
 
   const handleLock = () => {
     if (isLocked) {
+      // Handle lock screen state
       setIsLocked(false);
       setIsActive(true);
     }
   };
 
-  const handleModal = () => {
-    if (isModal) {
+  const handleModal = (modal?: "standup" | "onboarding") => {
+    // Handle modal open and close in child's component
+
+    if (modal) {
+      setActiveModal(modal);
+      setIsActive(false);
+      setIsModal(true);
+    } else {
+      setActiveModal("");
       setIsActive(true);
       setIsModal(false);
-    } else {
-      setIsModal(true);
-      setIsActive(false);
     }
   };
 
@@ -50,7 +52,6 @@ const MyPage = () => {
   return (
     <motion.div
       style={{
-        //backgroundImage:"linear-gradient(180deg,rgba(199, 163, 115, 1) 0%, rgba(221, 197, 165, 1) 13%, rgba(237, 223, 204, 1) 27%, rgba(245, 235, 222, 1) 37%, rgba(255, 251, 245, 1) 100%)",
         backgroundColor: "#fbfaf8",
       }}
       className='flex min-h-screen h-screen flex-col w-full py-4 px-4 sm:px-6 lg:px-10 xl:px-38 2xl:px-80 gap-4  relative overflow-hidden'
@@ -67,7 +68,9 @@ const MyPage = () => {
         <div className='flex flex-col gap-4 w-full lg:w-[36%]'>
           <ClockInCard />
           <UtilityCard />
-          <motion.button onClick={() => handleModal()}>On Toast</motion.button>
+          <motion.button onClick={() => handleModal("standup")}>
+            Open Standup
+          </motion.button>
           <motion.button onClick={() => handleModal()}>Off Toast</motion.button>
         </div>
         <div className='flex flex-col gap-4 w-full lg:w-[64%]'>
@@ -125,8 +128,12 @@ const MyPage = () => {
             transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
             className='absolute top-0 left-0 h-screen w-full flex p-3 lg:p-6 overflow-hidden'
           >
-            <ModalCard handleModal={handleModal}>
-              <StandupModal handleModal={handleModal} />
+            <ModalCard>
+              {activeModal === "standup" ? (
+                <StandupModal handleModal={handleModal} />
+              ) : (
+                <div></div>
+              )}
             </ModalCard>
           </motion.div>
         )}

@@ -2,13 +2,7 @@
 import { motion } from "motion/react";
 import { JSX } from "react";
 
-const ModalCard = ({
-  handleModal,
-  children,
-}: {
-  handleModal: () => void;
-  children: JSX.Element;
-}) => {
+const ModalCard = ({ children }: { children: JSX.Element }) => {
   return (
     <motion.div className='flex flex-col w-full h-full items-center justify-center'>
       <motion.div
@@ -20,12 +14,6 @@ const ModalCard = ({
         onClick={(e) => e.stopPropagation()}
       >
         {children}
-        <motion.h1
-          className='text-md font-light font-sans cursor-pointer mt-2'
-          onClick={handleModal}
-        >
-          Click to close
-        </motion.h1>
       </motion.div>
     </motion.div>
   );

@@ -47,7 +47,7 @@ const StandupModal = ({ handleModal }: { handleModal: () => void }) => {
   };
 
   return (
-    <motion.div className='flex flex-col gap-5'>
+    <motion.div className='flex flex-col gap-5 px-3 pt-5 pb-3'>
       <motion.div className='flex flex-col items-center justify-start '>
         <PiSunHorizonDuotone className='text-5xl' />
         <motion.h1 className='text-2xl font-bold font-serif'>
@@ -57,14 +57,20 @@ const StandupModal = ({ handleModal }: { handleModal: () => void }) => {
           What are you working on today?
         </motion.h2>
       </motion.div>
-      <motion.div>
+      <motion.div className='mt-3'>
         <motion.label className='block text-sm font-medium text-gray-700 font-serif mb-2'>
           What have you get done yesterday?
         </motion.label>
         <motion.textarea
           value={standup.yesterday}
           onChange={(e) => handleStandup("yesterday", e)}
-          className='block w-full rounded-xl p-2.5 bg-white text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 font-sans font-normal outline-0'
+          style={{
+            borderColor: "rgba(0, 0, 0, 0.3)",
+            outlineColor: "rgba(0, 0, 0, 0.1)",
+            borderWidth: "1px",
+          }}
+          whileFocus={{ outlineColor: "rgba(0, 0, 0, 0.4)" }}
+          className='block w-full rounded-lg p-2.5 bg-white text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 font-sans font-normal'
           placeholder='e.g. Finished chapter 2 of the book, refactored landing page code, etc.'
         />
       </motion.div>
@@ -75,7 +81,13 @@ const StandupModal = ({ handleModal }: { handleModal: () => void }) => {
         <motion.textarea
           value={standup.today}
           onChange={(e) => handleStandup("today", e)}
-          className='block w-full rounded-xl p-2.5 bg-white text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 font-sans font-normal outline-0'
+          style={{
+            borderColor: "rgba(0, 0, 0, 0.3)",
+            outlineColor: "rgba(0, 0, 0, 0.1)",
+            borderWidth: "1px",
+          }}
+          whileFocus={{ outlineColor: "rgba(0, 0, 0, 0.4)" }}
+          className='block w-full rounded-xl p-2.5 bg-white text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 font-sans font-normal '
           placeholder='e.g. I am working on X, Y, Z'
         />
       </motion.div>
@@ -86,13 +98,30 @@ const StandupModal = ({ handleModal }: { handleModal: () => void }) => {
         <motion.textarea
           value={standup.barrier}
           onChange={(e) => handleStandup("barrier", e)}
-          className='block w-full rounded-xl p-2.5 bg-white text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 font-sans font-normal outline-0'
+          style={{
+            borderColor: "rgba(0, 0, 0, 0.3)",
+            outlineColor: "rgba(0, 0, 0, 0.1)",
+            borderWidth: "1px",
+          }}
+          whileFocus={{ outlineColor: "rgba(0, 0, 0, 0.4)" }}
+          className='block w-full rounded-xl p-2.5 bg-white text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 font-sans font-normal '
           placeholder='e.g. I am facing X, Y, Z'
         />
       </motion.div>
-      <motion.button onClick={() => handleSave()}>
+      <motion.button
+        onClick={() => handleSave()}
+        style={{ backgroundColor: "#704214", color: "#ffffff" }}
+        whileHover={{ backgroundColor: "#000000" }}
+        whileTap={{ backgroundColor: "#704214", scale: 0.98 }}
+        className='flex w-full justify-center rounded-xl py-3.5 mt-1'
+      >
         <motion.h1 className='text-md font-semibold font-serif'>
-          Submit my stand-up
+          {hasStandup ? "Update" : "Submit"} my stand-up
+        </motion.h1>
+      </motion.button>
+      <motion.button onClick={() => handleModal()}>
+        <motion.h1 className='text-sm font-semibold font-serif'>
+          {hasStandup ? "Leave" : "I'll write it later"}
         </motion.h1>
       </motion.button>
     </motion.div>
